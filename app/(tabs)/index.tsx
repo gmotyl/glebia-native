@@ -1,12 +1,13 @@
 import { Button, StyleSheet } from 'react-native'
 
-import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
 import { useEffect, useState } from 'react'
+import { useBell } from '../hooks/useBell'
 
 export default function TabOneScreen() {
   const [timer, setTimer] = useState(20 * 60)
   const [isRunning, setIsRunning] = useState(false)
+  const { playBell } = useBell()
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined
@@ -24,7 +25,15 @@ export default function TabOneScreen() {
   const startTimer = () => {
     setTimer(20 * 60)
     setIsRunning(true)
+    playBell()
   }
+
+  // if timer is 0, play bell
+  useEffect(() => {
+    if (timer === 0) {
+      playBell()
+    }
+  }, [timer])
 
   return (
     <View style={styles.container}>
