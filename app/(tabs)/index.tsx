@@ -3,11 +3,13 @@ import { Button, StyleSheet } from 'react-native'
 import { Text, View } from '@/components/Themed'
 import { useEffect, useState } from 'react'
 import { useBell } from '../hooks/useBell'
+import { useKeepAwake } from 'expo-keep-awake'
 
 export default function TabOneScreen() {
   const [timer, setTimer] = useState(20 * 60)
   const [isRunning, setIsRunning] = useState(false)
   const { playBell } = useBell()
+  useKeepAwake()
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined
@@ -22,8 +24,8 @@ export default function TabOneScreen() {
     return () => clearInterval(interval)
   }, [timer, isRunning])
 
-  const startTimer = () => {
-    setTimer(20 * 60)
+  const startTimer = (minutes: number) => {
+    setTimer(minutes * 60)
     setIsRunning(true)
     playBell()
   }
@@ -47,7 +49,19 @@ export default function TabOneScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <Button title="Start" onPress={startTimer} />
+      <Button title="20 min" onPress={() => startTimer(20)} />
+      <View
+        style={styles.buttonSeparator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
+      <Button title="10 min" onPress={() => startTimer(10)} />
+      <View
+        style={styles.buttonSeparator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
+      <Button title="5 min" onPress={() => startTimer(5)} />
     </View>
   )
 }
@@ -58,6 +72,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    padding: 10,
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -66,5 +83,10 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  buttonSeparator: {
+    marginVertical: 5,
+    height: 1,
+    width: '40%',
   },
 })
