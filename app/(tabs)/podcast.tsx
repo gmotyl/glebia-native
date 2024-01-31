@@ -1,17 +1,17 @@
 import { StyleSheet } from 'react-native'
 
 import { View } from '@/components/Themed'
-import WebView from 'react-native-webview'
+// import WebView from 'react-native-webview'
 
 export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
-      <WebView
+      {/* <WebView
         source={{
           uri: 'https://otwarteserce.com/',
         }}
         style={{ marginTop: 20 }}
-      />
+      /> */}
     </View>
   )
 }
